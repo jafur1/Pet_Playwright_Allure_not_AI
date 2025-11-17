@@ -1,0 +1,5 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"broken","Sun Nov 16 22:30:44 YEKT 2025","Sun Nov 16 22:30:47 YEKT 2025","2569","test","test_updateVSdelet","TestMainPage","","","ADD/REMOVE страница",""
+"passed","Sun Nov 16 22:30:47 YEKT 2025","Sun Nov 16 22:30:49 YEKT 2025","2465","test","test_updateVSdelet","TestMainPage","","","BROKEN IMAGES страница",""
+"passed","Sun Nov 16 22:30:52 YEKT 2025","Sun Nov 16 22:30:54 YEKT 2025","2451","test","test_updateVSdelet","TestMainPage","","","CONTEXT MENU страница",""
+"passed","Sun Nov 16 22:30:49 YEKT 2025","Sun Nov 16 22:30:52 YEKT 2025","2525","test","test_updateVSdelet","TestMainPage","","","DRAG AND DROP страница",""

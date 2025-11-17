@@ -1,6 +1,5 @@
-## Решение 1 задание в файле 1_task.docx
 
-# Avito Pet Project
+# Pet Project
 
 Ниже описан полный цикл запуска тестов Playwright и формирования Allure-отчёта.
 
@@ -37,6 +36,8 @@ Expand-Archive -Path C:\Tools\allure\allure.zip -DestinationPath C:\Tools\allure
 Добавьте `C:\Tools\allure\allure-2.29.0\bin` в `PATH` (опционально), либо обращайтесь к `allure.bat` по абсолютному пути.
 
 ## Генерация и просмотр отчёта
+
+#### РЕКОМЕНДУЮ УКАЗЫВАТЬ ПОЛНЫЙ ПУТЬ Allure
 
 1. Сгенерируйте HTML-отчёт (удаляет старые данные в `allure-report`):
    ```

@@ -141,3 +141,95 @@ class TestMainPage:
             main_page.page.locator(KeyPressesElement.SELECT_KEY_PRESSES_TARGET).press('Delete')
             expect(main_page.page.locator(KeyPressesElement.SELECT_KEY_PRESSES_RESULT)).to_have_text('You entered: DELETE')
 
+    @allure.title("DISAPPEARING ELEMENTS страница")
+    def test_disappearing_elements(self, main_page: MainPage):
+        with allure.step("Открываем основную страницу"):
+            main_page.navigate()
+
+        with allure.step("Открываем страницу DISAPPEARING ELEMENTS"):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_DISAPPEARING_ELEMENTS)
+            expect(main_page.page).to_have_url(Links.DISAPPEARING_ELEMENTS)
+
+        with allure.step("Создаём цикл из 8 перезагрузок сайта"):
+            error_count = 0
+
+            for _ in range(8):
+                element = main_page.page.locator(DisappearElement.SELECT_DISAPPEARING_MISSING_ELEMENTS).count()
+                if element > 0:
+                    with allure.step("Элемент появился"):
+                        expect(element).to_be_visible()
+                    error_count += 1
+                    break
+                main_page.page.reload()
+
+            if error_count <= 0:
+                with allure.step("Элемент не появился"):
+                    expect(main_page.page.locator(DisappearElement.SELECT_DISAPPEARING_MISSING_ELEMENTS)).to_have_count(0)
+
+    @allure.title("DYNAMIC CONTENT страница")
+    def test_dynamic_content(self, main_page: MainPage):
+        with allure.step("Открываем основную страницу"):
+            main_page.navigate()
+
+        with allure.step("Открываем страницу DYNAMIC CONTENT"):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_DYNAMIC_CONTENT)
+            expect(main_page.page).to_have_url(Links.DYNAMIC_CONTENT)
+
+        with allure.step("Записываем актуальное значение"):
+            old_value = main_page.page.locator(DynamicContentElement.SELECT_DYNAMIC_CONTENT_TEXT).nth(2).text_content()
+
+        with allure.step("Перезагружаем страницу"):
+            main_page.page.reload()
+
+        with allure.step("Записываем новое значение и сравниваем со старым"):
+            next_value = main_page.page.locator(DynamicContentElement.SELECT_DYNAMIC_CONTENT_TEXT).nth(2).text_content()
+            assert old_value != next_value, {f"Ранее текст был {old_value}, а сейчас {next_value}"}
+
+    @allure.title("DYNAMIC LOADING страница")
+    def test_dynamic_loading(self, main_page: MainPage):
+        with allure.step("Открываем основную страницу"):
+            main_page.navigate()
+
+        with allure.step("Открываем страницу DYNAMIC LOADING"):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_DYNAMIC_LOADING)
+            expect(main_page.page).to_have_url(Links.DYNAMIC_LOADING)
+
+        with allure.step("Открываем страницу DYNAMIC LOADING 2"):
+            main_page.page.click(DynamicLoadingElement.SELECT_DYNAMIC_LOADING_LINK_PAGE_2)
+            expect(main_page.page).to_have_url(Links.DYNAMIC_LOADING_2)
+
+        with allure.step("Запускаем динамическую загрузку"):
+            main_page.page.locator(DynamicLoadingElement.SELECT_DYNAMIC_LOADING_BUTTON_START).click()
+
+        with allure.step("Ждем завершения загрузки"):
+            main_page.page.locator(DynamicLoadingElement.SELECT_DYNAMIC_LOADING_BUTTON_FINISH).wait_for(state="visible", timeout=15000)
+
+        with allure.step("Проверяем результат"):
+            result_text = main_page.page.locator(DynamicLoadingElement.SELECT_DYNAMIC_LOADING_BUTTON_FINISH).text_content()
+            assert result_text == "Hello World!", {f"Ожидался текст Hello World!, был получен {result_text}"}
+
+    @allure.title("DYNAMIC LOADING страница")
+    def test_dynamic_loading(self, main_page: MainPage):
+        with allure.step("Открываем основную страницу"):
+            main_page.navigate()
+
+        with allure.step("Открываем страницу DYNAMIC LOADING"):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_ENTRY_AD)
+            expect(main_page.page).to_have_url(Links.ENTRY_AD)
+
+        with allure.step("Проверка видимости модального окна"):
+            expect(main_page.page.locator(EntryAdElement.SELECT_ENTRY_AD_MODAL_WINDOW_TITLE)).to_be_visible()
+
+        with allure.step("Закрытие модального окна"):
+            main_page.page.locator(EntryAdElement.SELECT_ENTRY_AD_MODAL_WINDOW_BUTTON_CLOSE).click()
+
+        with allure.step("Нажатие на кнопку отключения модального окна"):
+            main_page.page.locator(EntryAdElement.SELECT_ENTRY_AD_WINDOW_BAN).click()
+
+        with allure.step("Перезагрузка страницы"):
+            main_page.page.reload()
+
+        with allure.step("Проверка отсутствия модального окна"):
+            expect(main_page.page.locator(EntryAdElement.SELECT_ENTRY_AD_MODAL_WINDOW_TITLE)).not_to_be_visible()
+
+

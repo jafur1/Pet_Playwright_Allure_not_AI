@@ -6,6 +6,11 @@ class SelectMainPage:
     SELECT_MAIN_PAGE_DRAG_AND_DROP = 'a[href="/drag_and_drop"]'
     SELECT_MAIN_PAGE_DROPDOWN_LIST = 'a[href="/dropdown"]'
     SELECT_MAIN_PAGE_KEY_PRESSES = 'a[href="/key_presses"]'
+    SELECT_MAIN_PAGE_DISAPPEARING_ELEMENTS = 'a[href="/disappearing_elements"]'
+    SELECT_MAIN_PAGE_DYNAMIC_CONTENT = 'a[href="/dynamic_content"]'
+    SELECT_MAIN_PAGE_DYNAMIC_LOADING = 'a[href="/dynamic_loading"]'
+    SELECT_MAIN_PAGE_ENTRY_AD = 'a[href="/entry_ad"]'
+    SELECT_MAIN_PAGE_EXIT_INTENT = 'a[href="/exit_intent"]'
 
 class AddRemoveElement:
     SELECT_ADD_BUTTON = 'button[onclick="addElement()"]'
@@ -35,3 +40,23 @@ class DropdownListElement:
 class KeyPressesElement:
     SELECT_KEY_PRESSES_TARGET = '#target'
     SELECT_KEY_PRESSES_RESULT = '#result'
+
+class DisappearElement:
+    SELECT_DISAPPEARING_MISSING_ELEMENTS = 'a[href="/gallery"]'
+
+class DynamicContentElement:
+    SELECT_DYNAMIC_CONTENT_TEXT = 'div[class="large-10 columns"]'
+
+class DynamicLoadingElement:
+    SELECT_DYNAMIC_LOADING_LINK_PAGE_2 = 'a[href="/dynamic_loading/2"]'
+    SELECT_DYNAMIC_LOADING_BUTTON_START = "button"
+    SELECT_DYNAMIC_LOADING_BUTTON_LOADING = '#loading'
+    SELECT_DYNAMIC_LOADING_BUTTON_FINISH = "#finish"
+
+class EntryAdElement:
+    SELECT_ENTRY_AD_MODAL_WINDOW_TITLE = '.modal-title'
+    SELECT_ENTRY_AD_MODAL_WINDOW_BUTTON_CLOSE = '.modal-footer >> text=Close'
+    SELECT_ENTRY_AD_WINDOW_BAN = '#restart-ad'
+
+
+

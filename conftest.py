@@ -41,3 +41,8 @@ def pytest_runtest_makereport(item, call):
             )
         except Exception:
             pass
+
+@pytest.fixture(scope="function")
+def test_data():
+    # для тестовых данных
+    return {}

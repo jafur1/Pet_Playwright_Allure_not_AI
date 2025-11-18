@@ -1,6 +1,4 @@
 from playwright.sync_api import Page
-from requests.packages import target
-
 
 class MainPage:
     def __init__(self, page: Page):

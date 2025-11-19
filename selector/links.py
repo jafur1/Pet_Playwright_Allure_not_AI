@@ -12,3 +12,7 @@ class Links:
     DYNAMIC_LOADING_2 = 'https://the-internet.herokuapp.com/dynamic_loading/2'
     ENTRY_AD = 'https://the-internet.herokuapp.com/entry_ad'
     EXIT_INTENT = 'https://the-internet.herokuapp.com/exit_intent'
+    FRAMES = 'https://the-internet.herokuapp.com/frames'
+    FRAMES_NESTED = 'https://the-internet.herokuapp.com/nested_frames'
+    FROM_AUTH = 'https://the-internet.herokuapp.com/login'
+    JS_ALERT = 'https://the-internet.herokuapp.com/javascript_alerts'

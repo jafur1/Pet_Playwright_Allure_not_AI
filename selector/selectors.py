@@ -11,6 +11,10 @@ class SelectMainPage:
     SELECT_MAIN_PAGE_DYNAMIC_LOADING = 'a[href="/dynamic_loading"]'
     SELECT_MAIN_PAGE_ENTRY_AD = 'a[href="/entry_ad"]'
     SELECT_MAIN_PAGE_EXIT_INTENT = 'a[href="/exit_intent"]'
+    SELECT_MAIN_PAGE_FRAMES = 'a[href="/frames"]'
+    SELECT_MAIN_PAGE_FRAMES_NESTED = 'a[href="/nested_frames"]'
+    SELECT_MAIN_PAGE_FROM_AUTH = 'a[href="/login"]'
+    SELECT_MAIN_PAGE_JS_ALERTS = 'a[href="/javascript_alerts"]'
 
 class AddRemoveElement:
     SELECT_ADD_BUTTON = 'button[onclick="addElement()"]'
@@ -58,5 +62,25 @@ class EntryAdElement:
     SELECT_ENTRY_AD_MODAL_WINDOW_BUTTON_CLOSE = '.modal-footer >> text=Close'
     SELECT_ENTRY_AD_WINDOW_BAN = '#restart-ad'
 
+class NestedFramesElement:
+    SELECT_FRAME_TOP = 'frame[name="frame-top"]'
+    SELECT_FRAME_LEFT = 'frame[src="/frame_left"]'
+    SELECT_FRAME_MIDDLE = '#target'
+    SELECT_FRAME_RIGHT = '#target'
+    SELECT_FRAME_LEFT_HEADING = "text=LEFT"
 
+class FromAuthElement:
+    SELECT_FROM_AUTH_BUTTON = 'button[class="radius"]'
+    SELECT_FROM_AUTH_INPUT_USERNAME = '#username'
+    SELECT_FROM_AUTH_INPUT_PASSWORD = '#password'
+    SELECT_FROM_AUTH_ERROR_MESS = '#flash-messages'
+
+class JsAlertsElement:
+    SELECT_JS_BUTTON_ALERT = 'button[onclick="jsAlert()"]'
+    SELECT_JS_BUTTON_CONFIRM = 'button[onclick="jsConfirm()"]'
+    SELECT_JS_BUTTON_PROMPT = 'button[onclick="jsPrompt()"]'
+    SELECT_JS_RESULT = '#result'
+    SELECT_JS_BUTTON_ALERT_CLOSE = "button:has-text('Click for JS Alert')"
+    SELECT_JS_BUTTON_CONFIRM_OK = "button:has-text('Click for JS Confirm')"
+    SELECT_JS_BUTTON_PROMPT_OK = "button:has-text('Click for JS Prompt')"
 

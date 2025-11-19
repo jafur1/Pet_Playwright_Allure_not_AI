@@ -3,6 +3,7 @@ from playwright.sync_api import expect
 from selector.main_page import MainPage
 from selector.selectors import *
 from selector.links import Links
+from selector.data_test_user import *
 
 
 @allure.feature("Главная страница")
@@ -232,4 +233,169 @@ class TestMainPage:
         with allure.step("Проверка отсутствия модального окна"):
             expect(main_page.page.locator(EntryAdElement.SELECT_ENTRY_AD_MODAL_WINDOW_TITLE)).not_to_be_visible()
 
+    @allure.step('FRAMES NESTED страница')
+    def test_frame_loading(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
 
+        with allure.step('Открываем страницу FRAMES'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_FRAMES)
+            expect(main_page.page).to_have_url(Links.FRAMES)
+
+        with allure.step('Открываем страницу FRAMES NESTED'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_FRAMES_NESTED)
+            expect(main_page.page).to_have_url(Links.FRAMES_NESTED)
+
+        with allure.step('Определяемся переменную для работы с top frame'):
+            frame_locator_top = main_page.page.frame_locator(NestedFramesElement.SELECT_FRAME_TOP)
+
+        with allure.step('Определяемся переменную для работы с left frame'):
+            frame_locator_left = frame_locator_top.frame_locator(NestedFramesElement.SELECT_FRAME_LEFT)
+
+        with allure.step('Находим тестк заголовка frame и сравниваем его с ранее заданным'):
+            text_left_frame = frame_locator_left.locator(NestedFramesElement.SELECT_FRAME_LEFT_HEADING).text_content().strip()
+            assert text_left_frame == "LEFT", f"Ожидался текст LEFT, был получен {text_left_frame}"
+
+    @allure.step('FROM AUTH страница авторизация с неверным логином')
+    def test_from_auth_invalid_login(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
+
+        with allure.step('Открываем страницу FROM AUTH'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_FROM_AUTH)
+            expect(main_page.page).to_have_url(Links.FROM_AUTH)
+
+        with allure.step('Открываем страницу FRAMES NESTED'):
+            main_page.page.locator(FromAuthElement.SELECT_FROM_AUTH_INPUT_USERNAME).fill(InvalidLoginDateUser.USER_LOGIN)
+            main_page.page.locator(FromAuthElement.SELECT_FROM_AUTH_INPUT_PASSWORD).fill(InvalidLoginDateUser.USER_PASSWORD)
+            main_page.page.click(FromAuthElement.SELECT_FROM_AUTH_BUTTON)
+
+        with allure.step('Отображение сообщения об ошибке'):
+            mess = main_page.page.locator(FromAuthElement.SELECT_FROM_AUTH_ERROR_MESS).text_content().strip().split('\n')[0].strip()
+            assert mess == 'Your username is invalid!', f"Ожидался текст Your username is invalid!, был получен {mess}"
+
+    @allure.step('FROM AUTH страница авторизация с неверным паролем')
+    def test_from_auth_invalid_pass(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
+
+        with allure.step('Открываем страницу FROM AUTH'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_FROM_AUTH)
+            expect(main_page.page).to_have_url(Links.FROM_AUTH)
+
+        with allure.step('Открываем страницу FRAMES NESTED'):
+            main_page.page.locator(FromAuthElement.SELECT_FROM_AUTH_INPUT_USERNAME).fill(InvalidPassDateUser.USER_LOGIN)
+            main_page.page.locator(FromAuthElement.SELECT_FROM_AUTH_INPUT_PASSWORD).fill(InvalidPassDateUser.USER_PASSWORD)
+            main_page.page.click(FromAuthElement.SELECT_FROM_AUTH_BUTTON)
+
+        with allure.step('Отображение сообщения об ошибке'):
+            mess = main_page.page.locator(FromAuthElement.SELECT_FROM_AUTH_ERROR_MESS).text_content().strip().split('\n')[0].strip()
+            assert mess == 'Your password is invalid!', f"Ожидался текст Your password is invalid!, был получен {mess}"
+
+    @allure.step('FROM AUTH страница с верными данными')
+    def test_from_auth_valid(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
+
+        with allure.step('Открываем страницу FROM AUTH'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_FROM_AUTH)
+            expect(main_page.page).to_have_url(Links.FROM_AUTH)
+
+        with allure.step('Открываем страницу FRAMES NESTED'):
+            main_page.page.locator(FromAuthElement.SELECT_FROM_AUTH_INPUT_USERNAME).fill(ValidDateUser.USER_LOGIN)
+            main_page.page.locator(FromAuthElement.SELECT_FROM_AUTH_INPUT_PASSWORD).fill(ValidDateUser.USER_PASSWORD)
+            main_page.page.click(FromAuthElement.SELECT_FROM_AUTH_BUTTON)
+
+        with allure.step('Отображение сообщения об успешной авторизации'):
+            mess = main_page.page.locator(FromAuthElement.SELECT_FROM_AUTH_ERROR_MESS).text_content().strip().split('\n')[0].strip()
+            assert mess == 'You logged into a secure area!', f"Ожидался текст You logged into a secure area!, был получен {mess}"
+
+    @allure.step('JS ALERTS страница')
+    def test_js_alert(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
+
+        with allure.step('Открываем страницу JS ALERTS'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_JS_ALERTS)
+            expect(main_page.page).to_have_url(Links.JS_ALERT)
+
+        with allure.step('Открывает Alert и нажатие на закрытие Alert'):
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_ALERT)
+            main_page.page.once("dialog", lambda dialog: dialog.dismiss())  # Cancel
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_ALERT_CLOSE)
+
+        with allure.step('Получаем результирующие сообщение и сравниваем'):
+            result_mess = main_page.page.locator(JsAlertsElement.SELECT_JS_RESULT).text_content()
+            assert result_mess == 'You successfully clicked an alert', f"Ожидался текст You successfully clicked an alert, был получен {result_mess}"
+
+    @allure.step('JS CONFIRM страница')
+    def test_js_confirm_ok(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
+
+        with allure.step('Открываем страницу JS ALERTS'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_JS_ALERTS)
+            expect(main_page.page).to_have_url(Links.JS_ALERT)
+
+        with allure.step('Открывает Confirm и нажатие на Ok Confirm'):
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_CONFIRM)
+            main_page.page.once("dialog", lambda dialog: dialog.accept())
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_CONFIRM_OK)
+
+        with allure.step('Получаем результирующие сообщение и сравниваем'):
+            result_mess = main_page.page.locator(JsAlertsElement.SELECT_JS_RESULT).text_content()
+            assert result_mess == 'You clicked: Ok', f"Ожидался текст You clicked: Ok, был получен {result_mess}"
+
+    @allure.step('JS CONFIRM страница')
+    def test_js_confirm_cansel(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
+
+        with allure.step('Открываем страницу JS ALERTS'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_JS_ALERTS)
+            expect(main_page.page).to_have_url(Links.JS_ALERT)
+
+        with allure.step('Открывает Confirm и нажатие на Cancel Confirm'):
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_CONFIRM)
+            main_page.page.once("dialog", lambda dialog: dialog.dismiss())
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_CONFIRM_OK)
+
+        with allure.step('Получаем результирующие сообщение и сравниваем'):
+            result_mess = main_page.page.locator(JsAlertsElement.SELECT_JS_RESULT).text_content()
+            assert result_mess == 'You clicked: Cancel', f"Ожидался текст You clicked: Cancel, был получен {result_mess}"
+
+    @allure.step('JS PROMPT страница')
+    def test_js_prompt_ok(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
+
+        with allure.step('Открываем страницу JS PROMPT'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_JS_ALERTS)
+            expect(main_page.page).to_have_url(Links.JS_ALERT)
+
+        with allure.step('Открывает Confirm и нажатие на OK Confirm'):
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_PROMPT)
+            main_page.page.once("dialog", lambda dialog: dialog.accept("Привет тому, кто читает мой код)"))
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_PROMPT_OK)
+
+        with allure.step('Получаем результирующие сообщение и сравниваем'):
+            result_mess = main_page.page.locator(JsAlertsElement.SELECT_JS_RESULT).text_content()
+            assert result_mess == 'You entered: Привет тому, кто читает мой код)', f"Ожидался текст You entered: Привет тому, кто читает мой код), был получен {result_mess}"
+
+    @allure.step('JS PROMPT страница')
+    def test_js_prompt_cansel(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
+
+        with allure.step('Открываем страницу JS PROMPT'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_JS_ALERTS)
+            expect(main_page.page).to_have_url(Links.JS_ALERT)
+
+        with allure.step('Открывает Confirm и нажатие на Cancel Confirm'):
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_PROMPT)
+            main_page.page.once("dialog", lambda dialog: dialog.dismiss())
+            main_page.page.click(JsAlertsElement.SELECT_JS_BUTTON_PROMPT_OK)
+
+        with allure.step('Получаем результирующие сообщение и сравниваем'):
+            result_mess = main_page.page.locator(JsAlertsElement.SELECT_JS_RESULT).text_content()
+            assert result_mess == 'You entered: null', f"Ожидался текст You entered: null, был получен {result_mess}"

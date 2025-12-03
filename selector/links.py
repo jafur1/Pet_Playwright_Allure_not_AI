@@ -16,3 +16,11 @@ class Links:
     FRAMES_NESTED = 'https://the-internet.herokuapp.com/nested_frames'
     FROM_AUTH = 'https://the-internet.herokuapp.com/login'
     JS_ALERT = 'https://the-internet.herokuapp.com/javascript_alerts'
+    MILTIPLE_WINDOWS = 'https://the-internet.herokuapp.com/windows'
+    NEW_WINDOWS = 'https://the-internet.herokuapp.com/windows/new'
+    STATUS_CODES_MAIN = 'https://the-internet.herokuapp.com/status_codes'
+    STATUS_CODES_200 = 'https://the-internet.herokuapp.com/status_codes/200'
+    STATUS_CODES_301 = 'https://the-internet.herokuapp.com/status_codes/301'
+    STATUS_CODES_404 = 'https://the-internet.herokuapp.com/status_codes/404'
+    STATUS_CODES_500 = 'https://the-internet.herokuapp.com/status_codes/500'
+    BASIC_AUTH = "https://the-internet.herokuapp.com/basic_auth"

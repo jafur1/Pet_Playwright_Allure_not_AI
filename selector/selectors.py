@@ -15,6 +15,8 @@ class SelectMainPage:
     SELECT_MAIN_PAGE_FRAMES_NESTED = 'a[href="/nested_frames"]'
     SELECT_MAIN_PAGE_FROM_AUTH = 'a[href="/login"]'
     SELECT_MAIN_PAGE_JS_ALERTS = 'a[href="/javascript_alerts"]'
+    SELECT_MAIN_PAGE_MILTIPLE_WINDOWS = 'a[href="/windows"]'
+    SELECT_MAIN_PAGE_STATUS_CODES = 'a[href="/status_codes"]'
 
 class AddRemoveElement:
     SELECT_ADD_BUTTON = 'button[onclick="addElement()"]'
@@ -83,4 +85,13 @@ class JsAlertsElement:
     SELECT_JS_BUTTON_ALERT_CLOSE = "button:has-text('Click for JS Alert')"
     SELECT_JS_BUTTON_CONFIRM_OK = "button:has-text('Click for JS Confirm')"
     SELECT_JS_BUTTON_PROMPT_OK = "button:has-text('Click for JS Prompt')"
+
+class MiltipleWindowsElement:
+    SELECT_MILTIPLE_WINDOW_BUTTON = 'a[href="/windows/new"]'
+
+class NewWindowsElement:
+    SELECT_NEW_WINDOW_TITLE = 'div[class="example"]'
+
+class StatusCodesElement:
+    SELECT_STATUS_CODES_BACK = 'a[href="/status_codes"]'
 

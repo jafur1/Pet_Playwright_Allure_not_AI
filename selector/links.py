@@ -24,3 +24,4 @@ class Links:
     STATUS_CODES_404 = 'https://the-internet.herokuapp.com/status_codes/404'
     STATUS_CODES_500 = 'https://the-internet.herokuapp.com/status_codes/500'
     BASIC_AUTH = "https://the-internet.herokuapp.com/basic_auth"
+    NOTIFICATIONS_MESSAGES = 'https://the-internet.herokuapp.com/notification_message_rendered'

@@ -460,3 +460,22 @@ class TestMainPage:
                 body = auth_page.locator("body").text_content()
                 assert "Congratulations" not in body
         context.close()
+
+    @allure.step('')
+    def test_notifical_message(self, main_page: MainPage):
+        with allure.step('Открываем основную страницу'):
+            main_page.navigate()
+
+        with allure.step('Открываем страницу STATUS CODES'):
+            main_page.page.locator(SelectMainPage.SELECT_MAIN_PAGE_NOTIFICATIONS_MESSAGES).scroll_into_view_if_needed()
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_NOTIFICATIONS_MESSAGES)
+            expect(main_page.page).to_have_url(Links.NOTIFICATIONS_MESSAGES)
+
+        with allure.step('Видимость Alert'):
+            expect(main_page.page.locator(NotificationMessageElement.SELECT_NOTIFICATION_MESSAGE_ALERT)).to_be_visible()
+
+        with allure.step('Обновление Alert'):
+            main_page.page.click(SelectMainPage.SELECT_MAIN_PAGE_NOTIFICATIONS_MESSAGES)
+
+        with allure.step('Видимость Alert'):
+            expect(main_page.page.locator(NotificationMessageElement.SELECT_NOTIFICATION_MESSAGE_ALERT)).to_be_visible()

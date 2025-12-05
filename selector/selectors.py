@@ -17,6 +17,7 @@ class SelectMainPage:
     SELECT_MAIN_PAGE_JS_ALERTS = 'a[href="/javascript_alerts"]'
     SELECT_MAIN_PAGE_MILTIPLE_WINDOWS = 'a[href="/windows"]'
     SELECT_MAIN_PAGE_STATUS_CODES = 'a[href="/status_codes"]'
+    SELECT_MAIN_PAGE_NOTIFICATIONS_MESSAGES = 'a[href="/notification_message"]'
 
 class AddRemoveElement:
     SELECT_ADD_BUTTON = 'button[onclick="addElement()"]'
@@ -94,4 +95,8 @@ class NewWindowsElement:
 
 class StatusCodesElement:
     SELECT_STATUS_CODES_BACK = 'a[href="/status_codes"]'
+
+class NotificationMessageElement:
+    SELECT_NOTIFICATION_MESSAGE_ALERT = '#flash'
+
 

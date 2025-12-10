@@ -10,6 +10,7 @@ from selector.data_test_user import *
 @allure.feature("Главная страница")
 class TestMainPage:
     @allure.title("ADD/REMOVE страница")
+    @allure.story("Добавление и удаление элементов")
     def test_add_remove(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
@@ -28,6 +29,7 @@ class TestMainPage:
             expect(main_page.page.locator(AddRemoveElement.SELECT_REMOVE_BUTTON)).to_have_count(1)
 
     @allure.title("BROKEN IMAGES страница")
+    @allure.story("Проверка битых изображений")
     def test_broken_images(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
@@ -42,6 +44,7 @@ class TestMainPage:
             expect(main_page.page.locator(BrokenImagesElement.SELECT_IMAGE_avatar_blank)).to_be_visible()
 
     @allure.title("CHECKBOXES страница")
+    @allure.story("Переключение чекбоксов")
     def test_checkboxes(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
@@ -61,6 +64,7 @@ class TestMainPage:
             expect(main_page.page.locator(CheckboxesElement.SELECT_CHECKBOXES_2)).not_to_be_checked()
 
     @allure.title("CONTEXT MENU страница")
+    @allure.story("Контекстное меню")
     def test_context_menu(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
@@ -73,7 +77,8 @@ class TestMainPage:
             main_page.page.locator(ContextMenuElement.SELECT_CONTEXT_MENU_BUTTON).click(button="right")
 
     @allure.title("DRAG AND DROP страница")
-    def test_checkboxes(self, main_page: MainPage):
+    @allure.story("Перетаскивание элементов")
+    def test_drag_and_drop(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
 
@@ -96,6 +101,7 @@ class TestMainPage:
             expect(main_page.page.locator(DragAndDropElement.SELECT_DROP_BUTTON_B)).to_have_text('A')
 
     @allure.title("Dropdown List страница")
+    @allure.story("Выбор из выпадающего списка")
     def test_dropdown_list(self, main_page: MainPage):
 
         select = main_page.page.locator(DropdownListElement.SELECT_DROPDOWN_LIST)
@@ -126,6 +132,7 @@ class TestMainPage:
             expect(main_page.page.locator(DropdownListElement.SELECT_DROPDOWN_OPTION_2)).to_have_attribute('selected','selected')
 
     @allure.title("KEY PRESSES страница")
+    @allure.story("Обработка нажатий клавиш")
     def test_key_presses(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
@@ -144,6 +151,7 @@ class TestMainPage:
             expect(main_page.page.locator(KeyPressesElement.SELECT_KEY_PRESSES_RESULT)).to_have_text('You entered: DELETE')
 
     @allure.title("DISAPPEARING ELEMENTS страница")
+    @allure.story("Исчезающие элементы")
     def test_disappearing_elements(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
@@ -159,7 +167,7 @@ class TestMainPage:
                 element = main_page.page.locator(DisappearElement.SELECT_DISAPPEARING_MISSING_ELEMENTS).count()
                 if element > 0:
                     with allure.step("Элемент появился"):
-                        expect(element).to_be_visible()
+                        expect(main_page.page.locator(DisappearElement.SELECT_DISAPPEARING_MISSING_ELEMENTS)).to_be_visible()
                     error_count += 1
                     break
                 main_page.page.reload()
@@ -169,6 +177,7 @@ class TestMainPage:
                     expect(main_page.page.locator(DisappearElement.SELECT_DISAPPEARING_MISSING_ELEMENTS)).to_have_count(0)
 
     @allure.title("DYNAMIC CONTENT страница")
+    @allure.story("Динамический контент")
     def test_dynamic_content(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
@@ -188,6 +197,7 @@ class TestMainPage:
             assert old_value != next_value, {f"Ранее текст был {old_value}, а сейчас {next_value}"}
 
     @allure.title("DYNAMIC LOADING страница")
+    @allure.story("Динамическая загрузка")
     def test_dynamic_loading(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
@@ -210,8 +220,9 @@ class TestMainPage:
             result_text = main_page.page.locator(DynamicLoadingElement.SELECT_DYNAMIC_LOADING_BUTTON_FINISH).text_content()
             assert result_text == "Hello World!", {f"Ожидался текст Hello World!, был получен {result_text}"}
 
-    @allure.title("DYNAMIC LOADING страница")
-    def test_dynamic_loading(self, main_page: MainPage):
+    @allure.title("ENTRY AD страница")
+    @allure.story("Модальное окно Entry Ad")
+    def test_entry_ad(self, main_page: MainPage):
         with allure.step("Открываем основную страницу"):
             main_page.navigate()
 
@@ -235,6 +246,7 @@ class TestMainPage:
             expect(main_page.page.locator(EntryAdElement.SELECT_ENTRY_AD_MODAL_WINDOW_TITLE)).not_to_be_visible()
 
     @allure.step('FRAMES NESTED страница')
+    @allure.story("Вложенные фреймы")
     def test_frame_loading(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -258,6 +270,7 @@ class TestMainPage:
             assert text_left_frame == "LEFT", f"Ожидался текст LEFT, был получен {text_left_frame}"
 
     @allure.step('FROM AUTH страница авторизация с неверным логином')
+    @allure.story("Авторизация с неверным логином")
     def test_from_auth_invalid_login(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -276,6 +289,7 @@ class TestMainPage:
             assert mess == 'Your username is invalid!', f"Ожидался текст Your username is invalid!, был получен {mess}"
 
     @allure.step('FROM AUTH страница авторизация с неверным паролем')
+    @allure.story("Авторизация с неверным паролем")
     def test_from_auth_invalid_pass(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -294,6 +308,7 @@ class TestMainPage:
             assert mess == 'Your password is invalid!', f"Ожидался текст Your password is invalid!, был получен {mess}"
 
     @allure.step('FROM AUTH страница с верными данными')
+    @allure.story("Успешная авторизация")
     def test_from_auth_valid(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -312,6 +327,7 @@ class TestMainPage:
             assert mess == 'You logged into a secure area!', f"Ожидался текст You logged into a secure area!, был получен {mess}"
 
     @allure.step('JS ALERTS страница')
+    @allure.story("JS Alert")
     def test_js_alert(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -330,6 +346,7 @@ class TestMainPage:
             assert result_mess == 'You successfully clicked an alert', f"Ожидался текст You successfully clicked an alert, был получен {result_mess}"
 
     @allure.step('JS CONFIRM страница')
+    @allure.story("JS Confirm OK")
     def test_js_confirm_ok(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -348,6 +365,7 @@ class TestMainPage:
             assert result_mess == 'You clicked: Ok', f"Ожидался текст You clicked: Ok, был получен {result_mess}"
 
     @allure.step('JS CONFIRM страница')
+    @allure.story("JS Confirm Cancel")
     def test_js_confirm_cansel(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -366,6 +384,7 @@ class TestMainPage:
             assert result_mess == 'You clicked: Cancel', f"Ожидался текст You clicked: Cancel, был получен {result_mess}"
 
     @allure.step('JS PROMPT страница')
+    @allure.story("JS Prompt OK")
     def test_js_prompt_ok(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -384,6 +403,7 @@ class TestMainPage:
             assert result_mess == 'You entered: Привет тому, кто читает мой код)', f"Ожидался текст You entered: Привет тому, кто читает мой код), был получен {result_mess}"
 
     @allure.step('JS PROMPT страница')
+    @allure.story("JS Prompt Cancel")
     def test_js_prompt_cansel(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -402,6 +422,7 @@ class TestMainPage:
             assert result_mess == 'You entered: null', f"Ожидался текст You entered: null, был получен {result_mess}"
 
     @allure.step('NEW WINDOW страница')
+    @allure.story("Новое окно")
     def test_new_window(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
@@ -420,6 +441,7 @@ class TestMainPage:
             expect(new_page.locator(NewWindowsElement.SELECT_NEW_WINDOW_TITLE)).to_be_visible()
 
     @allure.step('STATUS CODES страница')
+    @allure.story("Статус-коды HTTP")
     @pytest.mark.parametrize("status_code", [200, 301, 404, 500])
     def test_status_codes_with_http_check(self, main_page: MainPage, status_code):
         with allure.step('Открываем основную страницу'):
@@ -446,6 +468,7 @@ class TestMainPage:
     ("wrong", "admin", False),
     ("", "", False)])
     @allure.step('BASIC AUTH страница')
+    @allure.story("Basic Auth")
     def test_all_basic_auth(self, username, password, status_auth, main_page,make_auth_page):
         with allure.step('Создание контекста с тестовыми данными'):
             auth_page, context = make_auth_page(username, password)
@@ -461,7 +484,8 @@ class TestMainPage:
                 assert "Congratulations" not in body
         context.close()
 
-    @allure.step('')
+    @allure.step('STATUS CODES страница')
+    @allure.story("Уведомления")
     def test_notifical_message(self, main_page: MainPage):
         with allure.step('Открываем основную страницу'):
             main_page.navigate()
